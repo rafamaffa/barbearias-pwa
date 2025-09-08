@@ -11,6 +11,11 @@ import BarbershopItem from './_components/barbershop-item';
 
 export default async function Home() {
   const barbershops = await db.barbershop.findMany({});
+  const popularBarbershops = await db.barbershop.findMany({
+    orderBy: {
+      name: 'desc',
+    },
+  });
 
   return (
     <div>
@@ -25,6 +30,60 @@ export default async function Home() {
           <Input type="text" placeholder="Faça sua busca..." />
           <Button>
             <SearchIcon className="" />
+          </Button>
+        </div>
+
+        {/* Categorias */}
+        <div className="mt-6 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          <Button variant="secondary" className="gap-2">
+            <Image
+              src="/cabelo.svg"
+              alt="Cabelo"
+              width={16}
+              height={16}
+              className="h-4 w-4"
+            />
+            Cabelo
+          </Button>
+
+          <Button variant="secondary" className="gap-2">
+            <Image src="/barba.svg" alt="barba" width={16} height={16} />
+            Barba
+          </Button>
+
+          <Button variant="secondary" className="gap-2">
+            <Image
+              src="/acabamento.svg"
+              alt="acabamento"
+              width={16}
+              height={16}
+            />
+            Acabamento
+          </Button>
+
+          <Button variant="secondary" className="gap-2">
+            <Image
+              src="/sobrancelha.svg"
+              alt="sobrancelha"
+              width={16}
+              height={16}
+            />
+            Sobrancelha
+          </Button>
+
+          <Button variant="secondary" className="gap-2">
+            <Image
+              src="/hidratacao.svg"
+              alt="hidratacao"
+              width={16}
+              height={16}
+            />
+            Hidratação
+          </Button>
+
+          <Button variant="secondary" className="gap-2">
+            <Image src="/massagem.svg" alt="massagem" width={16} height={16} />
+            Massagem
           </Button>
         </div>
 
@@ -76,7 +135,29 @@ export default async function Home() {
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
           ))}
         </div>
+
+        {/* Item Populares */}
+
+        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+          Populares
+        </h2>
+
+        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {popularBarbershops.map((barbershop) => (
+            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
       </div>
+      <footer>
+        <Card>
+          <CardContent className="px-5 py-6">
+            <p className="text-sm text-gray-400">
+              &copy; 2025 Copyright{' '}
+              <span className="font-bold">FSW Barber</span>
+            </p>
+          </CardContent>
+        </Card>
+      </footer>
     </div>
   );
 }
